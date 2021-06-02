@@ -1,4 +1,4 @@
-// obstacle avoidance code
+// obstacle avoidance code with the addition of serial communication with rpi
 
 #define echo 11
 #define trig 12
@@ -52,7 +52,7 @@ void setup() {
 
 void loop() 
 {
-  
+  servo_top.write(-45);
   int sensorDegeri = analogRead(A1);// Arduino’nun A1 ayağına bağlanan kablodaki gerilim ölçülüyor
   digitalWrite(trig, LOW);
   delayMicroseconds(5);
@@ -66,7 +66,6 @@ void loop()
   if(Serial.available())
   {
     rpi_input = Serial.parseInt();
-    keepGripperUp();
     
     digitalWrite(trig, LOW);
     delayMicroseconds(5);
@@ -117,14 +116,6 @@ void loop()
      digitalWrite(LED_BUILTIN, LOW);    // turn the LED off by making the voltage LOW
      delay(500);                       // wait for a second
    }
-}
-
-void keepGripperUp() {
-  for(pos = 90; pos > -45; pos -=1)
-  {
-    servo_top.write(pos);
-    delay(15);
-  }
 }
 
 void goForward() 
@@ -178,7 +169,7 @@ void brakes()
 
 void pickup() // bu kolların açıp kapama yapıp çöpü tutması
 {
-  for(pos = 90; pos < 120; pos += 1)  // goes from 0 degrees to 180 degrees 
+  for(pos = 45; pos < 120; pos += 1)  // goes from 0 degrees to 180 degrees 
   {                                  // in steps of 1 degree 
     servo_top.write(pos);              // tell servo to go to position in variable 'pos' 
     delay(15);                       // waits 15ms for the servo to reach the position 
@@ -190,7 +181,7 @@ void pickup() // bu kolların açıp kapama yapıp çöpü tutması
   servo_left.write(90);
   servo_right.write(90);
   delay(1000);
-  for(pos = 120; pos >= 90; pos -=1)
+  for(pos = 120; pos >= 80; pos -=1)
   {
     servo_top.write(pos);
     delay(15);
@@ -200,7 +191,7 @@ void pickup() // bu kolların açıp kapama yapıp çöpü tutması
 
 void dropoff() //bu kolların yukarı kalkıp çöpe çöpü bırakması
 {
- for(pos = 90; pos > -45; pos -=1)
+ for(pos = 80; pos > -45; pos -=1)
   {
     servo_top.write(pos);
     delay(15);
@@ -209,7 +200,7 @@ void dropoff() //bu kolların yukarı kalkıp çöpe çöpü bırakması
   servo_left.write(0);//kollar açılsın
   servo_right.write(180);
   delay(1000);
-  for(pos = -45; pos < 90; pos += 1)  // goes from 0 degrees to 180 degrees 
+  for(pos = -45; pos < 45; pos += 1)  // goes from 0 degrees to 180 degrees 
   {                                  // in steps of 1 degree 
     servo_top.write(pos);              // tell servo to go to position in variable 'pos' 
     delay(15);                       // waits 15ms for the servo to reach the position 
