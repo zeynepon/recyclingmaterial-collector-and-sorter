@@ -95,12 +95,6 @@ void loop()
         else {
           num_paper_collected=num_paper_collected+1;
         }
-        delay(500);
-        goBackwards();
-        delay(500);
-        goRight();
-        delay(500);
-        brakes();
       }
     }
     goForward();
