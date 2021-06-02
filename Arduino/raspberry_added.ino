@@ -59,6 +59,11 @@ void loop()
   digitalWrite(trig, HIGH);
   delayMicroseconds(10);
   digitalWrite(trig,LOW); // echo sent
+
+  duration = pulseIn(echo, HIGH);
+  distance = duration / 29.1 / 2;
+
+  goForward();
   
   // send default string to RPI to confirm connection
   Serial.println("Connected to Arduino");
@@ -66,16 +71,6 @@ void loop()
   if(Serial.available())
   {
     rpi_input = Serial.parseInt();
-    
-    digitalWrite(trig, LOW);
-    delayMicroseconds(5);
-    digitalWrite(trig, HIGH);
-    delayMicroseconds(10);
-    digitalWrite(trig,LOW); // echo sent
-  
-    duration = pulseIn(echo, HIGH);
-    distance = duration / 29.1 / 2;
-    
     delay(2000); // rpiya zaman tanıdık
     
     if(distance < 15) {
