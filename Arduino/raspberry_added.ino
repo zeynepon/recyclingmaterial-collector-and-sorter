@@ -195,12 +195,6 @@ void dropoff() //bu kolların yukarı kalkıp çöpe çöpü bırakması
   servo_left.write(0);//kollar açılsın
   servo_right.write(180);
   delay(1000);
-  for(pos = -45; pos < 45; pos += 1)  // goes from 0 degrees to 180 degrees 
-  {                                  // in steps of 1 degree 
-    servo_top.write(pos);              // tell servo to go to position in variable 'pos' 
-    delay(15);                       // waits 15ms for the servo to reach the position 
-  }
-  delay(1000);
 }
 void empty_bin()
 {
