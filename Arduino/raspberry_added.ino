@@ -22,14 +22,14 @@ Servo servo_cop_right;
 Servo servo_cop_left;
 // Initialize the integer variables
 int num_metal_collected = 0;
-int metal_to_becollected=3;
+int metal_to_becollected = 3;
 int num_plastic_collected = 0;
-int plastic_to_becollected=2;
+int plastic_to_becollected = 2;
 int num_paper_collected = 0;
-int paper_to_becollected=3;
+int paper_to_becollected = 3;
 // Initialize the integer variables
 int rpi_input = 0;
-int trash_kind=1;
+int trash_kind = 1;
 
 void setup() {
   Serial.begin(9600);
@@ -37,7 +37,7 @@ void setup() {
   servo_top.attach(8);
   servo_left.attach(9);
   servo_right.attach(10);
-  servo_cop_right.attach(3);// değişebilir
+  servo_cop_right.attach(3); // değişebilir
   servo_cop_left.attach(5);
   pinMode(echo, INPUT);
   pinMode(trig, OUTPUT);
@@ -48,12 +48,13 @@ void setup() {
   pinMode(enA, OUTPUT);
   pinMode(enB, OUTPUT);
   pinMode(LED_BUILTIN, OUTPUT);
+  servo_top.write(0);
 }
 
 void loop() 
 {
-  servo_top.write(-45);
-  int sensorDegeri = analogRead(A1);// Arduino’nun A1 ayağına bağlanan kablodaki gerilim ölçülüyor
+  goForward();
+  int sensorDegeri = analogRead(A1); // Arduino’nun A1 ayağına bağlanan kablodaki gerilim ölçülüyor
   digitalWrite(trig, LOW);
   delayMicroseconds(5);
   digitalWrite(trig, HIGH);
@@ -62,8 +63,7 @@ void loop()
 
   duration = pulseIn(echo, HIGH);
   distance = duration / 29.1 / 2;
-
-  goForward();
+  //servo_top.write(0);
   
   // send default string to RPI to confirm connection
   Serial.println("Connected to Arduino");
@@ -164,7 +164,7 @@ void brakes()
 
 void pickup() // bu kolların açıp kapama yapıp çöpü tutması
 {
-  for(pos = 45; pos < 120; pos += 1)  // goes from 0 degrees to 180 degrees 
+  for(pos = 60; pos < 120; pos += 1)  // goes from 0 degrees to 180 degrees 
   {                                  // in steps of 1 degree 
     servo_top.write(pos);              // tell servo to go to position in variable 'pos' 
     delay(15);                       // waits 15ms for the servo to reach the position 
@@ -176,7 +176,7 @@ void pickup() // bu kolların açıp kapama yapıp çöpü tutması
   servo_left.write(90);
   servo_right.write(90);
   delay(1000);
-  for(pos = 120; pos >= 80; pos -=1)
+  for(pos = 120; pos >= 60; pos -=1)
   {
     servo_top.write(pos);
     delay(15);
@@ -186,7 +186,7 @@ void pickup() // bu kolların açıp kapama yapıp çöpü tutması
 
 void dropoff() //bu kolların yukarı kalkıp çöpe çöpü bırakması
 {
- for(pos = 80; pos > -45; pos -=1)
+ for(pos = 60; pos > 0; pos -=1)
   {
     servo_top.write(pos);
     delay(15);
@@ -195,7 +195,7 @@ void dropoff() //bu kolların yukarı kalkıp çöpe çöpü bırakması
   servo_left.write(0);//kollar açılsın
   servo_right.write(180);
   delay(1000);
-  for(pos = -45; pos < 45; pos += 1)  // goes from 0 degrees to 180 degrees 
+  for(pos = 0; pos < 60; pos += 1)  // goes from 0 degrees to 180 degrees 
   {                                  // in steps of 1 degree 
     servo_top.write(pos);              // tell servo to go to position in variable 'pos' 
     delay(15);                       // waits 15ms for the servo to reach the position 
