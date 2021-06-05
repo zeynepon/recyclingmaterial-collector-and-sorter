@@ -18,8 +18,8 @@ int pos;
 Servo servo_top;
 Servo servo_left;
 Servo servo_right;
-Servo servo_cop_right;
-Servo servo_cop_left;
+//Servo servo_cop_right;
+//Servo servo_cop_left;
 // Initialize the integer variables
 int num_metal_collected = 0;
 int metal_to_becollected = 3;
@@ -37,8 +37,6 @@ void setup() {
   servo_top.attach(8);
   servo_left.attach(9);
   servo_right.attach(10);
-  servo_cop_right.attach(3); // değişebilir
-  servo_cop_left.attach(5);
   pinMode(echo, INPUT);
   pinMode(trig, OUTPUT);
   pinMode(in1, OUTPUT);
@@ -66,7 +64,7 @@ void loop()
   //servo_top.write(0);
   
   // send default string to RPI to confirm connection
-  Serial.println("Connected to Arduino");
+  // Serial.println("Connected to Arduino");
   
   if(Serial.available())
   {
@@ -75,6 +73,7 @@ void loop()
     
     if(distance < 15) {
       brakes();
+      delay(5000);
       if(rpi_input=trash_kind) {
         digitalWrite(LED_BUILTIN, LOW);    
         delay(500); 
@@ -205,11 +204,11 @@ void dropoff() //bu kolların yukarı kalkıp çöpe çöpü bırakması
 void empty_bin()
 {
   //go_to_trash()
-  servo_cop_right.write(0); //geriye at
-  servo_cop_left.write(180);
+  //servo_cop_right.write(0); //geriye at
+  //servo_cop_left.write(180);
   delay(1000);
-  servo_cop_right.write(180); //pozisyona dön
-  servo_cop_left.write(0);
+  //servo_cop_right.write(180); //pozisyona dön
+  //servo_cop_left.write(0);
 }
 void go_to_trash()
 {
